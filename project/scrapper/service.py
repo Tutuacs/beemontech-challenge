@@ -1,5 +1,5 @@
 import requests
-from .models import Log
+from .models import Log, Quote
 from bs4 import BeautifulSoup
 
 page = 1
@@ -93,3 +93,29 @@ def fetch_page(page, log=False):
     except Exception as e:
         Log.objects.create(message=f"Failed to request page {page}: {e}", status='ERROR')
         return None
+
+def update_list(log=True):
+    quotes = list(log=True)
+    created_quotes = 0
+    if quotes:
+        for quote in quotes:
+
+            exist = Quote.objects.filter(text=quote['text'], author=quote['author']).first()
+            if exist:
+                continue
+
+            created_quote = Quote.objects.create(
+                text=quote['text'],
+                author=quote['author'],
+                tags=quote['tags'],
+                page=quote['page']
+            )
+
+            if not created_quote:
+                Log.objects.create(
+                    message=f"Error creating quote: {quote['text']}",
+                    status='ERROR_CREATING'
+                )
+                continue
+            created_quotes += 1
+    return created_quotes

@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime, timedelta
 
 # Create your models here.
 class Quote(models.Model):
@@ -34,3 +35,20 @@ class Log(models.Model):
         verbose_name = "Log"
         verbose_name_plural = "Logs"
         ordering = ['-created_at']
+
+class Schedule(models.Model):
+    name = models.CharField(max_length=100, blank=False, null=False)
+    date = models.DateTimeField(auto_now_add=False, blank=False, null=False, default=(datetime.now() + timedelta(days=1)))
+    status = models.CharField(max_length=20, choices=[
+        ('PENDING', 'Pending'),
+        ('COMPLETED', 'Completed'),
+        ('FAILED', 'Failed'),
+    ], default='PENDING')
+
+    def __str__(self):
+        return f"{self.name} - {self.date} - {self.status}"
+    
+    class Meta:
+        verbose_name = "Schedule"
+        verbose_name_plural = "Schedules"
+        ordering = ['-date']

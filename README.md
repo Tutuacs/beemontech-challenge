@@ -16,7 +16,7 @@
 
 ---
 
-<p align="center"> Este projeto foi feito para comprovar experiência e conhecimentos para a vaga com foco em webscraping com python, Django. Gostei mais do que esperava da tecnologia e do desafio.
+<p align="center"> Este projeto foi feito para comprovar experiência e conhecimentos para a vaga com foco em webscraping com python, Django. O desafio escolhido foi com o site <a href= "https://quotes.toscrape.com/">quotes</a>.
     <br> 
 </p>
 
@@ -103,7 +103,7 @@ Principais rotas:
 
 ## ✍️ Desenvolvido por <a name = "authors"></a>
 
-- [@ArthurSilva](https://github.com/Tutuacs) - Code
+- [@ArthurSilva](https://github.com/Tutuacs) - Dev
 
 See also the list of [contributors](https://github.com/Tutuacs/beemontech-challenge/contributors) who participated in this project.
 
@@ -111,7 +111,11 @@ See also the list of [contributors](https://github.com/Tutuacs/beemontech-challe
 
 - IMPORTATE: Ao criar uma *"schedule"*, a data enviada não é verificada, criando com uma data menor que a data atual resultará uma schedule com status FAIL.
 
-- References
+##### Melhorias Importantes:
+  - Rota */live* deveria ser feita com Ws para que o usuário possa acompanhar as atualizações em tempo real, para isso, seria necessário alterar a função que faz o scraping para receber uma conexão WebSocket e enviar os dados atualizados para a conexão recebida conforme o scraping é feito.
+  - Rota */update* deveria ser feita usando Redis Pub/Sub, publicando os objetos encontrados no scraping para que outro serviço possa cuidar da parte de salvar os dados no banco de dados, assim, o serviço de scraping não ficaria bloqueado e a resposta da rota */update* seria mais rápida.
+
+##### References
 
   - [Django Video](https://youtu.be/XAzVlnPDVd0?si=HPWwvPxa0ugR4AMz)
   - [Python && Redis](https://dev.to/felipepaz/python-e-redis-utilizando-pubsub-51fo)

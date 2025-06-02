@@ -1,9 +1,8 @@
 services:
   redis:
-    container_name: redis
     image: redis:alpine
-    environment:
-      - TZ=America/Sao_Paulo
+    ports:
+      - "6379:6379"
     command:
       - redis-server
       - '--bind'
@@ -12,5 +11,50 @@ services:
       - '6379'
       - '--notify-keyspace-events'
       - Ex
+    networks:
+      - beemon-challenge
+
+  db:
+    image: postgres:15
+    container_name: db
+    environment:
+      POSTGRES_DB: beemon-challenge
+      POSTGRES_USER: beemon
+      POSTGRES_PASSWORD: beemon10
     ports:
-      - 6379:6379
+      - "5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - beemon-challenge
+
+  api:
+    build:
+      context: .
+      target: api
+    command: sh -c "python project/manage.py migrate --noinput && python project/manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    networks:
+      - beemon-challenge
+
+  subscriber:
+    build:
+      context: .
+      target: api
+    command: python ./project/manage.py subscribe
+    depends_on:
+      - redis
+      - db
+      - api
+    networks:
+      - beemon-challenge
+
+networks:
+  beemon-challenge:
+    driver: bridge
+
+volumes:
+  postgres-data:

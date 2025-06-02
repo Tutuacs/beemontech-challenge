@@ -1,0 +1,11 @@
+# Ignore the SQLite database file
+db.sqlite3
+
+# Ignore Python cache and virtual environment
+__pycache__/
+*.pyc
+.venv/
+
+# Ignore README and app script
+README.md
+app.py

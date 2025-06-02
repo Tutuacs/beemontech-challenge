@@ -1,6 +1,10 @@
-# scrapper/management/commands/subscribe.py
+import os
+import django
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'quotes.settings')
+django.setup()
+
 from django.core.management.base import BaseCommand
-from ...redis_client import RedisClient
+from scrapper.redis_client import RedisClient
 
 class Command(BaseCommand):
     help = 'Subscribe to Redis channels and process messages'

@@ -1,10 +1,10 @@
-from redis import StrictRedis
-from .models import Log, Schedule
 from time import sleep
-from .service import update_list
+from redis import StrictRedis
+from scrapper.service import update_list
+from scrapper.models import Log, Schedule
 
 class RedisClient:
-    def __init__(self, host='localhost', port=6379, db=0):
+    def __init__(self, host='redis', port=6379, db=0):
         self.redis = StrictRedis(host=host, port=port, db=db)
 
     def set(self, key, value, ex=None):
@@ -32,7 +32,6 @@ class RedisClient:
                     channel = channel.decode('utf-8')
                 if isinstance(key, bytes):
                     key = key.decode('utf-8')
-
                 if message['type'] == 'message' and channel == '__keyevent@0__:expired':
                     print(f"Key expired: {key}")
                     Log.objects.create(

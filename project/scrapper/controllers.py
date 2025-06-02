@@ -3,7 +3,7 @@ import csv
 import pandas as pd
 from .models import Quote, Log
 from django.http import HttpResponse
-from .service import list, update_list
+from .service import list, update_list as service_update_list
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.decorators import api_view
 
@@ -26,7 +26,7 @@ def live_list(request):
 )
 @api_view(['GET'])
 def update_list(request):
-    created_quotes = update_list(True)
+    created_quotes = service_update_list(True)
     return HttpResponse("List updated successfully. {} new quotes created.".format(created_quotes))
 
 @swagger_auto_schema(

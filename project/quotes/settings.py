@@ -65,8 +65,12 @@ WSGI_APPLICATION = 'quotes.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': "beemon-challenge",
+        'USER': "beemon",
+        'PASSWORD': "beemon10",
+        'HOST': 'db',
+        'PORT': 5432,
     }
 }
 
